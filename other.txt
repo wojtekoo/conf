@@ -1,0 +1,1 @@
+Pop!_OS 22.04: make caps lock work like additional escape -> Gnome Tweaks App from Pop!_Shop
