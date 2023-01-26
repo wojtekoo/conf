@@ -1,0 +1,3 @@
+This file describes the 'settings.json' file which is a config for VS Code. Since JSON files does not support comments, I will comment the config here.
+
+"keyboard.dispatch": "keyCode" // If you have Caps-Lock as additional Escape, that's a fix for that additional Escape to work in VS Code
