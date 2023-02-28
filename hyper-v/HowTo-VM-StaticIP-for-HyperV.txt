@@ -1,4 +1,5 @@
-1. Setting up an virtual internal switch with NAT in PowerShell (192.168.0.0/24 subnet for virtual switch, 192.168.0.1 IP of the host, which acts as a gateway).
+1. Setting up an virtual internal switch with NAT on the host in PowerShell
+(192.168.0.0/24 subnet for virtual switch, 192.168.0.1 IP of the host, which acts as a gateway).
 New-VMSwitch -SwitchName "SwitchName" -SwitchType Internal
 Get-NetAdapter // (note down ifIndex of the newly created switch as INDEX)
 New-NetIPAddress -IPAddress 192.168.0.1 -PrefixLength 24 -InterfaceIndex <INDEX>
@@ -6,7 +7,9 @@ New-NetNat -Name MyNATnetwork -InternalIPInterfaceAddressPrefix 192.168.0.0/24
 
 2. Connect VM to the new switch in Hyper-V Manager.
 
-3. Inside the VM configure a static IP (e.g. 192.168.0.2).
+3.
+a) Ubuntu 22.04
+Inside the VM configure a static IP (e.g. 192.168.0.2).
 sudo vim /etc/netplan/01-network-manager-all.yaml
 network:
   version: 2
@@ -22,3 +25,5 @@ network:
           - 8.8.8.8
           - 8.8.4.4
 sudo netplan apply
+b) Windows 10
+Set static IP (e.g. 192.168.0.3) and gateway 192.168.0.1 in the options of the newly added adapter.
