@@ -1,0 +1,5 @@
+1. Install OpenSSH server via 'Optional features'
+2. Go to C:\ProgramData\ssh (by default OpenSSH server works on Administrator account, so C:\Users\<user>\.ssh folder is not used for configuration)
+3. Uncomment PubkeyAuthentication yes 
+4. Create administrators_authorized_keys file and copy public key to it
+5. Restart OpenSSH server via Services app
