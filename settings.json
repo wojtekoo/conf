@@ -1,4 +1,21 @@
 {
-    "workbench.colorTheme": "Default Dark+",
-    "keyboard.dispatch": "keyCode"
+    "workbench.colorTheme": "Default Dark Modern",
+    "editor.lineNumbers": "relative",
+    "vim.useCtrlKeys": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["u"],
+            "commands": ["undo"]
+        },
+        {
+            "before": ["<C-r>"],
+            "commands": ["redo"]
+        },
+        {
+            "before": ["<C-p>"],
+            "commands": ["workbench.action.quickOpen"]
+        },
+    ],
+    "workbench.startupEditor": "none",
+    "files.autoSave": "afterDelay"
 }
