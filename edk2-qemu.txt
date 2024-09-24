@@ -1,0 +1,43 @@
+# compilation and qemu prerequisites
+sudo apt install build-essential uuid-dev iasl git nasm python-is-python3 make gcc g++ qemu-system-x86_64
+
+# setting up EDK2 environment
+git clone https://github.com/tianocore/edk2.git
+cd edk2
+git checkout edk2-stable202408
+git submodule update --init
+make -C BaseTools/Source/C
+source edksetup.sh
+
+# compiling QEMU img
+build -p OvmfPkg/OvmfPkgX64.dsc -b DEBUG -t GCC5 -n $(nproc) -a X64 all
+
+# OST2 Arch4021: Base QEMU run
+qemu-system-x86_64 -drive if=pflash,format=raw,file=Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd -nographic -net none
+
+# OST2 Arch4021: QEMU run + I/O Debug Port (value from gUefiOvmfPkgTokenSpaceGuid.PcdDebugIoPort; debug logs in debug.log)
+qemu-system-x86_64 \
+       -nographic \
+       -bios Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
+       -chardev file,path=debug.log,id=edk2-debug \
+       -device isa-debugcon,iobase=<I/O-Debug-Port>,chardev=edk2-debug \
+       -net none
+	   
+# + NVMe drive
+qemu-system-x86_64 \
+       -nographic \
+       -bios Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
+       -chardev file,path=debug.log,id=edk2-debug \
+       -device isa-debugcon,iobase=<I/O-Debug-Port>,chardev=edk2-debug \
+       -net none
+	   
+# + NVMe
+qemu-img create nvme_controller.img 10G -f qcow2
+qemu-system-x86_64 \
+       -nographic \
+       -bios Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
+       -chardev file,path=debug.log,id=edk2-debug \
+       -device isa-debugcon,iobase=<I/O-Debug-Port>,chardev=edk2-debug \
+       -net none \
+	   -drive file=nvme_controller.img,if=none,id=nvm \
+	   -device nvme,serial=deadbeef,drive=nvm
