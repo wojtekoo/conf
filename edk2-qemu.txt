@@ -22,16 +22,8 @@ qemu-system-x86_64 \
        -chardev file,path=debug.log,id=edk2-debug \
        -device isa-debugcon,iobase=<I/O-Debug-Port>,chardev=edk2-debug \
        -net none
-	   
+
 # + NVMe drive
-qemu-system-x86_64 \
-       -nographic \
-       -bios Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
-       -chardev file,path=debug.log,id=edk2-debug \
-       -device isa-debugcon,iobase=<I/O-Debug-Port>,chardev=edk2-debug \
-       -net none
-	   
-# + NVMe
 qemu-img create nvme_controller.img 10G -f qcow2
 qemu-system-x86_64 \
        -nographic \
