@@ -1,0 +1,1 @@
+alias gb="git for-each-ref --color=always --sort=-committerdate --format='%(committerdate:iso8601) %(if)%(HEAD)%(then)%(color:green)%(end)%(refname:short)%(color:reset) %(align:50,right)%(upstream:short)%(end)' refs/heads/ | tac"
